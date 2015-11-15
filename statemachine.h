@@ -2,9 +2,8 @@
 #define STATEMACHINE_H
 
 #include "scene/main/node.h"
-#include "core/hash_map.h"
-#include "core/dictionary.h"
 #include "core/map.h"
+#include "core/list.h"
 #include "state.h"
 
 class StateMachine : public Node
@@ -12,10 +11,10 @@ class StateMachine : public Node
     OBJ_TYPE(StateMachine, Node);
 private:
     Map<StringName, State*> stateMap;
-    State* currentState;
-    State* previousState;
+    List<State*> stateStack;
 
     void add_child_nodes_as_states();
+    void change_state(State *toState, State *fromState);
 
 protected:
     static void _bind_methods();
@@ -23,13 +22,16 @@ protected:
 public:
     StateMachine();
 
-    StringArray get_all_states();
+    void add_new_state(Node* newState);
+    StringArray get_all_state_names();
     int get_state_amount();
 
-    void execute(float deltaTime);
-    void change_with_name(const StringName toStateName);
-    void change_with_node(Node* toState);
-    void add(Node* newState);
+    State* get_active_state();
+    void change_active_state_with_name(const StringName toStateName);
+    void change_active_state_with_node(Node* toState);
+    void step_back_state();
+
+    void execute_active_state(float deltaTime);
 
 };
 

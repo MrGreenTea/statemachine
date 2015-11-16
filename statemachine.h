@@ -10,6 +10,11 @@ class StateMachine : public Node
 {
     OBJ_TYPE(StateMachine, Node);
 private:
+    enum history_directions {
+        FORWARD,
+        BACKWARD
+    };
+
     Map<StringName, State*> stateMap;
     List<State*> stateList;
     int currentStackIndex;
@@ -17,7 +22,7 @@ private:
     void add_child_nodes_as_states();
     void change_state(State *toState, State *fromState);
     void delete_from_stack_after_index(int index);
-    void step_through_state_history(bool forward);
+    void step_through_state_history(history_directions direction);
 
 protected:
     static void _bind_methods();

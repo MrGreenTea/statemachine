@@ -43,7 +43,7 @@ State* StateMachine::get_active_state() {
     if (stateList.size() > 0 && currentStackIndex < stateList.size()) {
         return stateList[currentStackIndex];
     }
-    ERR_EXPLAIN("Couldn't get the current state.")
+    ERR_PRINT("Couldn't get the current state.");
     return NULL;
 }
 
@@ -56,7 +56,8 @@ void StateMachine::change_active_state_with_name(const StringName toStateName) {
     ERR_EXPLAIN("There are no registered states!");
     ERR_FAIL_COND(stateMap.size() == 0);
     ERR_FAIL_COND(!stateMap.has(toStateName));
-    change_active_state_with_node(stateMap[toStateName]);
+    State* toStateNode = stateMap[toStateName];
+    change_active_state_with_node(toStateNode);
 }
 
 void StateMachine::change_state(State* toState, State* fromState) {
@@ -93,7 +94,7 @@ void StateMachine::delete_from_stack_after_index(int index) {
 
 void StateMachine::step_back_state() {
     ERR_FAIL_COND(!can_step_back_state());
-    step_through_state_history(false);
+    step_through_state_history(BACKWARD);
 }
 
 bool StateMachine::can_step_back_state() {
@@ -102,16 +103,23 @@ bool StateMachine::can_step_back_state() {
 
 void StateMachine::step_forward_state() {
     ERR_FAIL_COND(!can_step_forward_state());
-    step_through_state_history(true);
+    step_through_state_history(FORWARD);
 }
 
 bool StateMachine::can_step_forward_state() {
     return currentStackIndex < stateList.size()-1;
 }
 
-void StateMachine::step_through_state_history(bool forward) {
+void StateMachine::step_through_state_history(history_directions direction) {
     State* fromState = get_active_state();
-    forward ? currentStackIndex++ : currentStackIndex--;
+    switch (direction) {
+        case FORWARD: {
+            currentStackIndex++;
+        }
+        case BACKWARD: {
+            currentStackIndex--;
+        }
+    }
     State* toState = stateList[currentStackIndex];
     change_state(toState, fromState);
 }

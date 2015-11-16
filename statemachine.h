@@ -11,10 +11,13 @@ class StateMachine : public Node
     OBJ_TYPE(StateMachine, Node);
 private:
     Map<StringName, State*> stateMap;
-    List<State*> stateStack;
+    List<State*> stateList;
+    int currentStackIndex;
 
     void add_child_nodes_as_states();
     void change_state(State *toState, State *fromState);
+    void delete_from_stack_after_index(int index);
+    void step_through_state_history(bool forward);
 
 protected:
     static void _bind_methods();
@@ -29,7 +32,11 @@ public:
     State* get_active_state();
     void change_active_state_with_name(const StringName toStateName);
     void change_active_state_with_node(Node* toState);
+
+    bool can_step_back_state();
+    bool can_step_forward_state();
     void step_back_state();
+    void step_forward_state();
 
     void execute_active_state(float deltaTime);
 

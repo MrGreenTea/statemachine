@@ -124,7 +124,7 @@ void StateMachine::_bind_methods() {
 
     ObjectTypeDB::bind_method(_MD("add_state", "name:String", "state:State"), &StateMachine::add_new_state);
 
-    ObjectTypeDB::bind_method(_MD("get_active_state"), &StateMachine::execute_active_state);
+    ObjectTypeDB::bind_method(_MD("get_active_state"), &StateMachine::get_active_state);
     ObjectTypeDB::bind_method(_MD("execute_current_state", "delta:float"), &StateMachine::execute_active_state);
 
     ObjectTypeDB::bind_method(_MD("change_active_state_with_name", "name:String"), &StateMachine::change_active_state_with_name);

@@ -68,6 +68,7 @@ void StateMachine::change_state(State* toState, State* fromState) {
         fromState->exit(toState);
     }
     toState->enter(fromState);
+    emit_signal("changed_state", toState->get_name());
 }
 
 void StateMachine::change_active_state_with_node(Node* toState) {
@@ -116,6 +117,8 @@ void StateMachine::step_through_state_history(bool forward) {
 }
 
 void StateMachine::_bind_methods() {
+    ADD_SIGNAL( MethodInfo( "changed_state", PropertyInfo(Variant::STRING, "to_state_name") ) );
+
     ObjectTypeDB::bind_method(_MD("get_all_state_names"), &StateMachine::get_all_state_names);
     ObjectTypeDB::bind_method(_MD("get_state_amount"), &StateMachine::get_state_amount);
 

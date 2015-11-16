@@ -75,10 +75,10 @@ void StateMachine::change_active_state_with_node(Node* toState) {
     ERR_FAIL_NULL(toState);
     State* castedToState = dynamic_cast<State*>(toState);
     State* fromState = get_active_state();
-    change_state(castedToState, fromState);
     delete_from_stack_after_index(currentStackIndex);
+    currentStackIndex = stateList.size();
+    change_state(castedToState, fromState);
     stateList.push_back(castedToState);
-    currentStackIndex = stateList.size() - 1;
 }
 
 void StateMachine::delete_from_stack_after_index(int index) {

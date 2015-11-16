@@ -1,5 +1,4 @@
 #include "state.h"
-#include "scene/scene_string_names.h"
 
 void State::enter(const Node* fromState) {
     emit_signal( "enter_state", fromState);

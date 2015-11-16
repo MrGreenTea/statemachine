@@ -115,10 +115,10 @@ void StateMachine::step_through_state_history(history_directions direction) {
     switch (direction) {
         case FORWARD: {
             currentStackIndex++;
-        }
+        } break;
         case BACKWARD: {
             currentStackIndex--;
-        }
+        } break;
     }
     State* toState = stateList[currentStackIndex];
     change_state(toState, fromState);

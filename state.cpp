@@ -19,10 +19,6 @@ void State::_bind_methods() {
     ADD_SIGNAL( MethodInfo( "execute_state", PropertyInfo(Variant::REAL,"delta")) );
 }
 
-State::State()
-    //enterMethodName( "state_enter"),
-    //exitMethodName ( "state_exit" ),
-    //executeMethodName( "state_execute")
-{
+State::State() {
 
 }
